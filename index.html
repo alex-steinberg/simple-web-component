@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Web Component</title>
+</head>
+<body>
+    <template id="hot-text">
+        <style>
+            p {
+                background-color: yellow;
+                color: red;
+            }
+        </style>
+        <p><slot name="burning">Default burning text</slot></p>
+    </template>
+    <hot-text>
+        <span slot="burning">I am on fire!</span>
+    </hot-text>
+    <script>
+        class HotText extends HTMLElement {
+            constructor() {
+                super()
+                let template = document.getElementById('hot-text');
+                let templateContent = template.content;
+
+                const shadowRoot = this.attachShadow({mode: 'open'})
+                    .appendChild(templateContent.cloneNode(true));
+            }
+        }
+        customElements.define('hot-text', HotText)
+    </script>
+</body>
+</html>
